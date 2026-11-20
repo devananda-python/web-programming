@@ -1,0 +1,85 @@
+<html>
+<head>
+<title>Online Examination</title>
+<style>
+body{font-family:Arial;background:lightblue}
+.exam{background:white;width:60%;margin:30px auto;padding:20px;border-radius:10px}
+h2{text-align:center;color:blue}
+p{font-weight:bold}
+button{background:green;color:white;padding:10px 20px;border:0;cursor:pointer}
+button:hover{background:darkgreen}
+#result{color:blue;font-size:20px}
+</style>
+</head>
+<body>
+
+<div class="exam">
+<h2>ONLINE EXAMINATION</h2>
+<h3 id="timer">Time Left:02:00</h3>
+<h3>Answer the following questions:</h3>
+
+<form id="exam">
+<script>
+let questions=[
+["HTML stands for?","Hyper Text Markup Language","High Text Language","Hyper Transfer Language"],
+["Which keyword is used to declare a variable?","var","int","float"],
+["What does CSS stand for?","Cascading Style Sheets","Computer Style Sheets","Creative Style Sheets"],
+["Which tag is used to create a paragraph in HTML?","<p>","<h1>","<br>"],
+["Which symbol is used for comments in JavaScript?","//","##","**"],
+["Which method displays an alert box?","alert()","print()","display()"],
+["Which object is used for mathematical operations?","Math","String","Date"],
+["Which event occurs when clicking a button?","onclick","onload","onmouseover"],
+["Which function converts a string to integer?","parseInt()","toString()","alert()"],
+["Which language makes web pages interactive?","JavaScript","HTML","CSS"]
+];
+
+questions.forEach((q,i)=>{
+document.write(`<p>${i+1}. ${q[0]}</p>`);
+q.slice(1).forEach((a,j)=>{
+let option=a.replaceAll("<","&lt;").replaceAll(">","&gt;");
+document.write(`<input type="radio" name="q${i+1}" value="${j==0?1:0}"> ${option}<br>`);
+});
+});
+</script>
+
+<br><br>
+<button type="button" onclick="check()">Submit Exam</button>
+</form>
+
+<h3 id="result"></h3>
+</div>
+
+<script>
+let time=60;
+
+let timer=setInterval(()=>{
+let m=Math.floor(time/60),s=time%60;
+
+document.getElementById("timer").innerHTML=
+"Time Left:"+String(m).padStart(2,'0')+":"+String(s).padStart(2,'0');
+
+time--;
+
+if(time<0){
+clearInterval(timer);
+document.getElementById("timer").innerHTML="Time Over!";
+check();
+alert("Time is over! Your exam is submitted.");
+}
+},1000);
+
+function check(){
+let score=0;
+
+for(let i=1;i<=10;i++){
+let ans=document.querySelector(`input[name="q${i}"]:checked`);
+if(ans && ans.value=="1") score++;
+}
+
+document.getElementById("result").innerHTML="Your Score:"+score+"/10";
+}
+</script>
+
+</body>
+</html>
+
